@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial; margin: 20px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background-color: #f2f2f2; text-align: left; }
+    .header { text-align: center; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2>MEDICAL VISIT REPORT</h2>
+    <p>Date: {{ report.visit_date.strftime('%d-%b-%Y') }}</p>
+  </div>
+
+  <table>
+    <tr>
+      <th width="25%">Patient particulars:</th>
+      <td>{{ report.patient.full_name }}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Age: {{ report.patient_age }} years, Sex: {{ report.patient_sex }}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Address: {{ report.patient_address }}</td>
+    </tr>
+    
+    <!-- Add all other sections following the same pattern -->
+    
+    <tr>
+      <th>Clinician/Specialist:</th>
+      <td>{{ report.doctor.full_name }}</td>
+    </tr>
+  </table>
+</body>
+</html>

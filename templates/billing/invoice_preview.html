@@ -1,0 +1,102 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+{% set render_ctx = h.resolve_ctx() %}
+
+<div class="container py-5">
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-header bg-success text-white rounded-top-4 d-flex justify-content-between align-items-center">
+      <div>
+        <h4 class="mb-1">Invoice #{{ invoice.id }}</h4>
+        <small>Date: {{ invoice.invoice_date.strftime('%Y-%m-%d') }}</small>
+      </div>
+      <div>
+        <span class="badge bg-light text-dark px-3 py-2">Healthcare Invoice</span>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h5 class="text-primary"><i class="fas fa-user-injured"></i> Patient Info</h5>
+          <p><strong>Name:</strong> {{ invoice.patient.full_name }}</p>
+          <p><strong>Visit:</strong> {% if invoice.visit %} #{{ invoice.visit.id }} {% else %} N/A {% endif %}</p>
+        </div>
+        <div class="col-md-6">
+          <h5 class="text-primary"><i class="fas fa-user-md"></i> Doctor Info</h5>
+          <p><strong>Name:</strong> {{ invoice.doctor.full_name }}</p>
+        </div>
+      </div>
+
+      <h5 class="text-secondary mb-3">Invoice Items</h5>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped align-middle">
+          <thead class="thead-light bg-light">
+            <tr class="text-center">
+              <th>Item</th>
+              <th>Quantity</th>
+              <th>Unit Price</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in invoice.items %}
+            <tr>
+              <td>{{ item.description }}</td>
+              <td class="text-center">{{ item.quantity }}</td>
+              <td class="text-right">{{ "%.2f"|format(item.unit_price) }}</td>
+              <td class="text-right">{{ "%.2f"|format(item.amount) }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" class="text-end fw-bold">Subtotal:</td>
+              <td class="text-end">{{ "%.2f"|format(invoice.subtotal) }}</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-end fw-bold">Professional Fee:</td>
+              <td class="text-end">{{ "%.2f"|format(invoice.professional_fee) }}</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-end fw-bold">Tax ({{ invoice.tax_rate }}%):</td>
+              <td class="text-end">{{ "%.2f"|format(invoice.tax_amount) }}</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-end fw-bold">Discount:</td>
+              <td class="text-end">{{ "%.2f"|format(invoice.discount) }}</td>
+            </tr>
+            <tr class="table-success">
+              <td colspan="3" class="text-end fw-bold h5">Total:</td>
+              <td class="text-end fw-bold h5">{{ "%.2f"|format(invoice.total) }}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="d-flex justify-content-center gap-3 mt-4">
+        <a href="{{ url_for('invoice.print_invoice', invoice_id=invoice.id) }}" class="btn btn-outline-primary" target="_blank">
+          <i class="fas fa-print"></i> Print Invoice
+        </a>
+        <a href="{{ url_for('invoice.edit_view', id=invoice.id) }}" class="btn btn-outline-secondary">
+          <i class="fas fa-edit"></i> Edit Invoice
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GSAP & Font Awesome for icons (optional but recommended) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://kit.fontawesome.com/a2e0c6ad00.js" crossorigin="anonymous"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    gsap.from('.card', {
+      opacity: 0,
+      y: 30,
+      duration: 1,
+      ease: 'power2.out'
+    });
+  });
+</script>
+{% endblock %}

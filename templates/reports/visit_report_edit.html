@@ -1,0 +1,22 @@
+{% extends 'admin/model/edit.html' %}
+
+{% block body %}
+  <h2>Medical Visit Report</h2>
+  {{ super() }}
+{% endblock %}
+
+{% block tail %}
+  {{ super() }}
+  <script>
+    // Auto-fill patient details when patient is selected
+    document.getElementById('patient').addEventListener('change', function() {
+      fetch(`/api/patient/${this.value}`)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('patient_age').value = data.age;
+          document.getElementById('patient_sex').value = data.gender;
+          document.getElementById('patient_address').value = data.address;
+        });
+    });
+  </script>
+{% endblock %}

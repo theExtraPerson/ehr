@@ -1,0 +1,109 @@
+{# templates/admin/dashboard.html #}
+
+{% extends 'admin/master.html' %}
+
+{% block page_body %}
+
+        
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block sidebar">
+                <h4 class="text-center mb-4">KMC EHR</h4>
+                <a href="/admin/patient/" class="{% if request.path.startswith('/admin/patient') %}active{% endif %}">Patients</a>
+                <a href="/admin/doctor/" class="{% if request.path.startswith('/admin/doctor') %}active{% endif %}">Doctors</a>
+                <a href="/admin/visit/" class="{% if request.path.startswith('/admin/visit') %}active{% endif %}">Visits</a>
+                <a href="/admin/prescription/" class="{% if request.path.startswith('/admin/prescription') %}active{% endif %}">Prescriptions</a>
+                <a href="/admin/invoice/" class="{% if request.path.startswith('/admin/invoice') %}active{% endif %}">Invoices</a>
+                <a href="/admin/reports/" class="{% if request.path.startswith('/admin/reports') %}active{% endif %}">Reports</a>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-10 ms-sm-auto px-md-4 py-4">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Welcome, {{ current_user.first_name if current_user else 'Admin' }}</h2>
+                    <div>
+                        <button class="btn btn-outline-primary me-2">Notifications <span class="badge bg-danger">3</span></button>
+                        <button class="btn btn-outline-secondary">Settings</button>
+                    </div>
+                </div>
+
+                <!-- Metrics cards -->
+                <div class="row g-4 mb-5">
+                    <div class="col-md-3">
+                        <div class="card card-metric text-white bg-primary">
+                            <div class="card-body">
+                                <h5 class="card-title">Active Patients</h5>
+                                <p class="card-text fs-2">{{ active_patients_count }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card card-metric text-white bg-success">
+                            <div class="card-body">
+                                <h5 class="card-title">Doctors</h5>
+                                <p class="card-text fs-2">{{ doctors_count }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card card-metric text-white bg-warning">
+                            <div class="card-body">
+                                <h5 class="card-title">Visits This Month</h5>
+                                <p class="card-text fs-2">{{ visits_this_month }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card card-metric text-white bg-danger">
+                            <div class="card-body">
+                                <h5 class="card-title">Prescriptions This Month</h5>
+                                <p class="card-text fs-2">{{ prescriptions_this_month }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="row mb-5">
+                    <div class="col-lg-8">
+                        <div class="card p-4 shadow-sm">
+                            <h5>Monthly Visits & Prescriptions</h5>
+                            <canvas id="visitsPrescriptionsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card p-4 shadow-sm">
+                            <h5>Invoices Total (Last 6 Months)</h5>
+                            <canvas id="invoicesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Patients -->
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card p-4 shadow-sm">
+                            <h5>Recent Patients</h5>
+                            <ul class="patient-list list-unstyled">
+                                {% for patient in recent_patients %}
+                                <li>
+                                    <strong>{{ patient.full_name }}</strong><br />
+                                    Age: {{ patient.age }} | Gender: {{ patient.gender }}<br />
+                                    Contact: {{ patient.phone }}
+                                </li>
+                                {% else %}
+                                <li>No recent patients found.</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Additional panels can go here -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+{% endblock page_body %}

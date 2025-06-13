@@ -1,0 +1,190 @@
+
+
+/* THE FIRST CSS */
+:root {
+    --kmc-primary: #1a5276;
+    --kmc-secondary: #2980b9;
+    --kmc-accent: #e74c3c;
+    --kmc-light: #ecf0f1;
+}
+
+/* Main Theme */
+.kmc-admin-container {
+    background-color: #f5f9fc;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.kmc-brand {
+    font-weight: 600;
+    color: white !important;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.kmc-brand i {
+    color: var(--kmc-accent);
+}
+
+/* Cards */
+.kmc-welcome-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.kmc-card-header {
+    background: linear-gradient(135deg, var(--kmc-primary), var(--kmc-secondary));
+    color: white;
+    padding: 20px;
+}
+
+.kmc-card-header h2 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.kmc-card-body {
+    padding: 25px;
+}
+
+/* Stats Cards */
+.kmc-stat-item {
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    height: 100%;
+}
+
+.kmc-stat-item i {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.kmc-stat-item h3 {
+    font-size: 2rem;
+    margin: 10px 0;
+}
+
+/* Quick Actions */
+.kmc-action-card {
+    display: block;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    color: var(--kmc-primary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.kmc-action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    color: var(--kmc-accent);
+}
+
+.kmc-action-card i {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Activity Feed */
+.kmc-activity-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-left: 3px solid var(--kmc-secondary);
+    margin-bottom: 5px;
+}
+
+.kmc-activity-item i {
+    margin-right: 10px;
+    color: var(--kmc-secondary);
+    width: 20px;
+    text-align: center;
+}
+
+.kmc-activity-item small {
+    margin-left: auto;
+}
+
+/* Navigation */
+.navbar {
+    background: var(--kmc-primary) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255,255,255,0.9);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: white;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--kmc-primary);
+    border-color: var(--kmc-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--kmc-secondary);
+    border-color: var(--kmc-secondary);
+}
+
+/* ADMIN DASHBOARD CSS */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+.sidebar {
+    height: 100vh;
+    background: #004085;
+    color: white;
+    padding-top: 1rem;
+}
+.sidebar a {
+    color: #cfd8dc;
+    text-decoration: none;
+    display: block;
+    padding: 0.75rem 1.25rem;
+    transition: background 0.3s ease;
+}
+.sidebar a:hover {
+    background: #0056b3;
+    color: white;
+}
+.sidebar .active {
+    background: #0069d9;
+    font-weight: bold;
+}
+.card-metric {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 0.075);
+    transition: transform 0.3s ease;
+}
+.card-metric:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 0.15);
+}
+.chart-container {
+    position: relative;
+    height: 300px;
+}
+.patient-list {
+    max-height: 350px;
+    overflow-y: auto;
+}
+.patient-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #dee2e6;
+}
+.patient-list li:last-child {
+    border-bottom: none;
+}

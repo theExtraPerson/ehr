@@ -1,0 +1,45 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+    <h1>KMC EHR Dashboard</h1>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Patients</h5>
+                    <p class="card-text">{{ patients_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Visits (30 days)</h5>
+                    <p class="card-text">{{ visits_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Prescriptions</h5>
+                    <p class="card-text">{{ prescriptions_count }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <h3>Recent Activity</h3>
+        <ul class="list-group">
+            {% for activity in recent_activity %}
+            <li class="list-group-item">
+                <i class="fas fa-{{ activity.icon }} me-2"></i>
+                {{ activity.message }}
+                <span class="text-muted float-end">{{ activity.time }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

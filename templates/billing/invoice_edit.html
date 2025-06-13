@@ -1,0 +1,84 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+{% set render_ctx = h.resolve_ctx() %}
+
+<div class="container py-4">
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center rounded-top-4">
+      <h4 class="mb-0">
+        {% if model %} Edit Invoice {% else %} Create Invoice {% endif %}
+      </h4>
+    </div>
+    <div class="card-body">
+      {{ super() }}
+    </div>
+  </div>
+
+  <div id="patient-info-container" class="mt-4"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // GSAP entry animation
+    gsap.from(".card", {
+      duration: 1,
+      opacity: 0,
+      y: 30,
+      ease: "power2.out"
+    });
+
+    // Auto-fill drug price and description on drug selection
+    const drugSelects = document.querySelectorAll('[id$="-drug"]');
+    drugSelects.forEach(select => {
+      select.addEventListener('change', function () {
+        const drugId = this.value;
+        if (!drugId) return;
+
+        const rowId = this.id.split('-')[0];
+        fetch(`/api/drug/${drugId}`)
+          .then(response => response.json())
+          .then(data => {
+            const unitPriceEl = document.getElementById(`${rowId}-unit_price`);
+            const descriptionEl = document.getElementById(`${rowId}-description`);
+
+            if (unitPriceEl && descriptionEl) {
+              unitPriceEl.value = data.unit_price;
+              descriptionEl.value = data.name;
+              gsap.fromTo([unitPriceEl, descriptionEl], { scale: 1.1 }, { scale: 1, duration: 0.3, ease: "bounce.out" });
+            }
+          });
+      });
+    });
+
+    // Load patient info when patient is selected
+    $('#patient').change(function () {
+      const patientId = $(this).val();
+      if (patientId) {
+        $.get('/api/patient/' + patientId, function (data) {
+          $('#patient-info-container').html(`
+            <div class="card border-info shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title text-info">Patient Information</h5>
+                <p><strong>Name:</strong> ${data.full_name}</p>
+                <p><strong>Age:</strong> ${data.age}</p>
+                <p><strong>Gender:</strong> ${data.gender}</p>
+                <p><strong>Contact:</strong> ${data.phone}</p>
+              </div>
+            </div>
+          `);
+          gsap.from("#patient-info-container .card", {
+            duration: 0.6,
+            opacity: 0,
+            y: 20,
+            ease: "power2.out"
+          });
+        });
+      } else {
+        $('#patient-info-container').empty();
+      }
+    }).trigger('change');
+  });
+</script>
+{% endblock %}
